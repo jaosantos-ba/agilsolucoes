@@ -621,6 +621,68 @@ footer {
   margin-top: 10px;
 }
 
+.footer-social {
+  margin-bottom: 18px;
+}
+
+.footer-social-title {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.footer-social-links {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.social-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #fff;
+  transition: 0.2s ease;
+}
+
+.social-btn img {
+  width: 18px;
+  height: 18px;
+}
+
+/* Cores das redes */
+
+.youtube {
+  background: #ff0000;
+}
+
+.youtube:hover {
+  background: #cc0000;
+}
+
+.instagram {
+  background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af);
+}
+
+.instagram:hover {
+  opacity: 0.9;
+}
+
+.facebook {
+  background: #1877f2;
+}
+
+.facebook:hover {
+  background: #145dd1;
+}
+
 @media (max-width: 960px) {
   .hero-grid,
   .split,
