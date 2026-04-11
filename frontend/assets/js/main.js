@@ -4,6 +4,30 @@ document.addEventListener("DOMContentLoaded", function () {
   const telefoneInput = document.getElementById("telefone");
   const valorInput = document.getElementById("valor");
 
+  function showStatus(type, text) {
+    if (!statusMsg) return;
+    statusMsg.className = "status " + type;
+    statusMsg.textContent = text;
+  }
+
+  function getWhatsAppLink(message = "Olá, quero fazer uma simulação de empréstimo.") {
+    return `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+  }
+
+  function initWhatsAppLinks() {
+    const links = document.querySelectorAll(".whatsapp-link");
+
+    links.forEach(function (link) {
+      const message =
+        link.getAttribute("data-message") ||
+        "Olá, quero fazer uma simulação de empréstimo.";
+
+      link.href = getWhatsAppLink(message);
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+    });
+  }
+
   function startCountdown() {
     const h = document.getElementById("hours");
     const m = document.getElementById("minutes");
@@ -49,28 +73,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     update();
     setInterval(update, 1000);
-  }
-
-  function getWhatsAppLink(message = "Olá, quero fazer uma simulação de empréstimo.") {
-    return `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
-  }
-
-  function initWhatsAppLinks() {
-    const links = document.querySelectorAll(".whatsapp-link");
-
-    links.forEach(link => {
-      const message =
-        link.getAttribute("data-message") ||
-        "Olá, quero fazer uma simulação de empréstimo.";
-
-      link.href = getWhatsAppLink(message);
-      link.target = "_blank";
-    });
-  }
-
-  function showStatus(type, text) {
-    statusMsg.className = "status " + type;
-    statusMsg.textContent = text;
   }
 
   function formatPhone(value) {
