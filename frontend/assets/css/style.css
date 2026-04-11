@@ -109,6 +109,11 @@ body {
   font-weight: 700;
 }
 
+.top-contact:hover {
+  transform: translateY(-1px);
+  background: #f8fafc;
+}
+
 .hero-grid {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
