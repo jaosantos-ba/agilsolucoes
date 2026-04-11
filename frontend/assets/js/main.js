@@ -1,14 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("leadForm");
   const statusMsg = document.getElementById("statusMsg");
-  const thankYouScreen = document.getElementById("thankYouScreen");
-  const thankYouWhatsAppBtn = document.getElementById("thankYouWhatsAppBtn");
   const telefoneInput = document.getElementById("telefone");
   const valorInput = document.getElementById("valor");
-
-  startCountdown();
-
-  initWhatsAppLinks();
 
   function startCountdown() {
     const h = document.getElementById("hours");
@@ -22,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
     function update() {
       const now = new Date();
       const end = new Date();
-
       end.setHours(18, 0, 0, 0);
 
       let isTomorrow = false;
@@ -33,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       const diff = end.getTime() - now.getTime();
-
       const hours = Math.floor(diff / (1000 * 60 * 60));
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
@@ -53,14 +45,27 @@ document.addEventListener("DOMContentLoaded", function () {
       } else if (diff <= 60 * 60 * 1000) {
         countdownBox.classList.add("warning");
       }
+    }
+
+    update();
+    setInterval(update, 1000);
   }
 
-  update();
-  setInterval(update, 1000);
+  function getWhatsAppLink(message = "Olá, quero fazer uma simulação de empréstimo.") {
+    return `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
   }
 
-  if (!form || !statusMsg || !thankYouScreen || !thankYouWhatsAppBtn || !telefoneInput || !valorInput) {
-    return;
+  function initWhatsAppLinks() {
+    const links = document.querySelectorAll(".whatsapp-link");
+
+    links.forEach(link => {
+      const message =
+        link.getAttribute("data-message") ||
+        "Olá, quero fazer uma simulação de empréstimo.";
+
+      link.href = getWhatsAppLink(message);
+      link.target = "_blank";
+    });
   }
 
   function showStatus(type, text) {
@@ -81,7 +86,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function formatCurrency(value) {
     const numbers = value.replace(/\D/g, "");
-
     if (!numbers) return "";
 
     return (Number(numbers) / 100).toLocaleString("pt-BR", {
@@ -89,14 +93,6 @@ document.addEventListener("DOMContentLoaded", function () {
       currency: "BRL"
     });
   }
-
-  telefoneInput.addEventListener("input", function (e) {
-    e.target.value = formatPhone(e.target.value);
-  });
-
-  valorInput.addEventListener("input", function (e) {
-    e.target.value = formatCurrency(e.target.value);
-  });
 
   function validateFormData(data) {
     const phoneNumbers = data.telefone.replace(/\D/g, "");
@@ -110,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
       throw new Error("Informe um WhatsApp válido com DDD.");
     }
 
-    if (!data.valor || data.valor === "R$ 0,00" || data.valor === "R$ 0,00") {
+    if (!data.valor || data.valor === "R$ 0,00") {
       throw new Error("Informe um valor desejado válido.");
     }
 
@@ -144,21 +140,20 @@ document.addEventListener("DOMContentLoaded", function () {
     return encodeURIComponent(linhas.join("\n"));
   }
 
-  function getWhatsAppLink(message = "Olá, quero fazer uma simulação de empréstimo.") {
-    return `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+  startCountdown();
+  initWhatsAppLinks();
+
+  if (!form || !statusMsg || !telefoneInput || !valorInput) {
+    return;
   }
 
-  function initWhatsAppLinks() {
-    const links = document.querySelectorAll(".whatsapp-link");
+  telefoneInput.addEventListener("input", function (e) {
+    e.target.value = formatPhone(e.target.value);
+  });
 
-    links.forEach(link => {
-      const message = link.getAttribute("data-message") || "Olá, quero fazer uma simulação de empréstimo.";
-      
-      link.href = getWhatsAppLink(message);
-      link.target = "_blank";
-    });
-  }
-
+  valorInput.addEventListener("input", function (e) {
+    e.target.value = formatCurrency(e.target.value);
+  });
 
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
@@ -176,12 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     const botao = form.querySelector("button[type='submit']");
-
-    console.log("Antes de testar o botão!")
-
     if (!botao) return;
-
-    console.log("Após testar o botão!")
 
     botao.disabled = true;
     botao.textContent = "Enviando...";
@@ -195,31 +185,13 @@ document.addEventListener("DOMContentLoaded", function () {
         await sendToGoogleSheets(data);
       }
 
-      showStatus("success", "Dados recebidos com sucesso.");
+      const mensagem = buildWhatsAppMessage(data);
+      const url = "https://wa.me/" + CONFIG.whatsappNumber + "?text=" + mensagem;
 
-      if (typeof CONFIG !== "undefined" && CONFIG.redirectToWhatsApp) {
-        const mensagem = buildWhatsAppMessage(data);
-        const url = "https://wa.me/" + CONFIG.whatsappNumber + "?text=" + mensagem;
+      sessionStorage.setItem("emprestimo_whatsapp_url", url);
+      sessionStorage.setItem("emprestimo_lead_nome", data.nome);
 
-        thankYouWhatsAppBtn.href = url;
-
-        const mainEl = document.querySelector("main");
-        if (mainEl) {
-          mainEl.style.display = "none";
-        }
-
-        thankYouScreen.classList.add("active");
-
-        setTimeout(function () {
-          window.location.hash = "thankYouScreen";
-        }, 100);
-
-        setTimeout(function () {
-          window.open(url, "_blank");
-        }, 1200);
-      }
-
-      form.reset();
+      window.location.href = "./obrigado.html";
     } catch (error) {
       showStatus("error", error.message || "Não foi possível concluir sua solicitação. Tente novamente.");
       console.error(error);
