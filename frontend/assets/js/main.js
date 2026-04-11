@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("leadForm");
   const statusMsg = document.getElementById("statusMsg");
@@ -140,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
       linhas.push("Observação: " + data.mensagemExtra);
     }
 
-    return encodeURIComponent(linhas.join("\n"));
+    return linhas.join("\n");
   }
 
   startCountdown();
@@ -184,12 +183,14 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       validateFormData(data);
 
-      if (typeof sendToGoogleSheets === "function") {
-        await sendToGoogleSheets(data);
+      if (typeof sendToGoogleSheets !== "function") {
+        throw new Error("Função de envio não carregada.");
       }
 
+      await sendToGoogleSheets(data);
+
       const mensagem = buildWhatsAppMessage(data);
-      const url = "https://wa.me/" + CONFIG.whatsappNumber + "?text=" + mensagem;
+      const url = getWhatsAppLink(mensagem);
 
       sessionStorage.setItem("emprestimo_whatsapp_url", url);
       sessionStorage.setItem("emprestimo_lead_nome", data.nome);
