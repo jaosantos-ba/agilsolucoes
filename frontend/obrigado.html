@@ -1,23 +1,48 @@
-<script src="./assets/js/appConfig.js"></script>
-<script>
-  function getWhatsAppLink(message = "Olá, quero fazer uma simulação de empréstimo.") {
-    return `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
-  }
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solicitação recebida</title>
+  <link rel="icon" type="image/png" href="./assets/img/favicon.png" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+<body>
+  <section class="thank-you active">
+    <div class="thank-you-card">
+      <div class="brand" style="justify-content:center; margin-bottom: 18px;">
+        <img src="./assets/img/logo-agil.avif" alt="Logo" />
+      </div>
+      <h1>Solicitação recebida</h1>
+      <p id="thankYouMessage">Obrigado. Seus dados foram enviados com sucesso.</p>
+      <p>Seu atendimento continuará no WhatsApp para dar sequência à simulação.</p>
+      <a id="thankYouWhatsAppBtn" class="btn btn-primary btn-icon" href="#" target="_blank" rel="noopener noreferrer"><img src="./assets/img/whatsapp.svg" alt="" />Continuar no WhatsApp</a>
+      <div style="margin-top: 14px; color: rgba(255,255,255,0.85); font-size: 0.95rem;">Caso o WhatsApp não abra automaticamente, use o botão acima.</div>
+    </div>
+  </section>
+  
+  <script src="./assets/js/appConfig.js"></script>
+  <script>
+    function getWhatsAppLink(message = "Olá, quero fazer uma simulação de empréstimo.") {
+      return `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    }
 
-  const btn = document.getElementById("thankYouWhatsAppBtn");
-  const msg = document.getElementById("thankYouMessage");
-  const url = sessionStorage.getItem("emprestimo_whatsapp_url");
-  const nome = sessionStorage.getItem("emprestimo_lead_nome");
+    const btn = document.getElementById("thankYouWhatsAppBtn");
+    const msg = document.getElementById("thankYouMessage");
+    const url = sessionStorage.getItem("emprestimo_whatsapp_url");
+    const nome = sessionStorage.getItem("emprestimo_lead_nome");
 
-  if (nome) {
-    msg.textContent = "Obrigado, " + nome + ". Seus dados foram enviados com sucesso.";
-  }
+    if (nome) {
+      msg.textContent = "Obrigado, " + nome + ". Seus dados foram enviados com sucesso.";
+    }
 
-  const finalUrl = url || getWhatsAppLink("Olá, quero fazer uma simulação de empréstimo.");
+    const finalUrl = url || getWhatsAppLink("Olá, quero fazer uma simulação de empréstimo.");
 
-  btn.href = finalUrl;
+    btn.href = finalUrl;
 
-  setTimeout(function () {
-    window.open(finalUrl, "_blank");
-  }, 700);
-</script>
+    setTimeout(function () {
+      window.open(finalUrl, "_blank");
+    }, 700);
+  </script>
+</body>
+</html>
