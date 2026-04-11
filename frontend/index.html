@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulação de Empréstimo Rápido</title>
+  <link rel="icon" type="image/png" href="./assets/img/favicon.png" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <div class="topbar">
+        <div class="brand">
+          <img src="./assets/img/logo-agil.avif" alt="Logo" />
+        </div>
+        <a class="top-contact btn-icon whatsapp-link" data-message="Quero atendimento imediato." rel="noopener noreferrer"><img src="./assets/img/whatsapp.svg" alt="" />Atendimento imediato</a>
+      </div>
+
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <h1>Empréstimo rápido com atendimento direto no WhatsApp</h1>
+          <p>
+            Solicite sua simulação com rapidez, clareza e atendimento direto para entender sua melhor possibilidade.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#formulario">Quero minha simulação</a>
+            <a class="btn btn-secondary btn-icon whatsapp-link" data-message="Quero uma simulação de empréstimo." rel="noopener noreferrer"><img src="./assets/img/whatsapp.svg" alt="" />Falar no WhatsApp</a>
+          </div>
+
+          <div class="hero-points">
+            <span>Atendimento rápido</span>
+            <span>Simulação sem compromisso</span>
+            <span>Processo simples</span>
+          </div>
+
+          <div class="mini-proof">
+            <div><strong>Mais agilidade</strong> para o seu atendimento</div>
+            <div><strong>Contato direto</strong> pelo WhatsApp</div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-badge">Crédito com agilidade</div>
+          <img
+            src="./assets/img/hero-emprestimo.png"
+            alt="Pessoa analisando finanças e dinheiro em um contexto de empréstimo rápido"
+          />
+          <small>Faça sua solicitação de forma simples e prática.</small>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="urgency-bar">
+    <div id="countdownLabel" class="countdown-label">Encerra hoje às 18h</div>
+    <div id="countdownBox" class="countdown">
+      <b id="hours">00</b>:<b id="minutes">00</b>:<b id="seconds">00</b>
+    </div>
+  </div>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Por que solicitar sua simulação conosco?</h2>
+        <p class="section-subtitle">
+          Atendimento rápido, processo simples e acompanhamento direto para você ganhar tempo e praticidade.
+        </p>
+
+        <div class="grid-4">
+          <article class="card">
+            <h3>Atendimento rápido</h3>
+            <p>Receba retorno ágil para dar andamento à sua solicitação.</p>
+          </article>
+          <article class="card">
+            <h3>Simulação sem compromisso</h3>
+            <p>Consulte suas possibilidades antes de tomar qualquer decisão.</p>
+          </article>
+          <article class="card">
+            <h3>Mais praticidade</h3>
+            <p>Preencha seus dados em poucos minutos e siga no WhatsApp.</p>
+          </article>
+          <article class="card">
+            <h3>Atendimento direto</h3>
+            <p>Fale com rapidez e acompanhe sua solicitação de forma simples.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+      <div class="container">
+        <h2 class="section-title">Quem busca rapidez precisa de um processo claro</h2>
+        <p class="section-subtitle">Mais praticidade para começar agora e seguir com seu atendimento sem complicação.</p>
+        <div class="grid-3">
+          <article class="card testimonial">
+            <div class="stars">★★★★★</div>
+            <p>Atendimento objetivo e fácil de entender. Tudo pode ser feito com rapidez pelo WhatsApp.</p>
+            <strong>Atendimento prático</strong>
+          </article>
+          <article class="card testimonial">
+            <div class="stars">★★★★★</div>
+            <p>Solicitação simples, sem complicação, para você ganhar tempo e seguir com mais facilidade.</p>
+            <strong>Processo ágil</strong>
+          </article>
+          <article class="card testimonial">
+            <div class="stars">★★★★★</div>
+            <p>Mais organização no atendimento e mais clareza para acompanhar cada etapa da solicitação.</p>
+            <strong>Mais segurança</strong>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container split">
+        <article class="card highlight">
+          <h2>Crédito com mais rapidez e praticidade</h2>
+          <p style="color: var(--muted); margin-top: 10px;">
+            Se você precisa organizar contas, lidar com imprevistos ou buscar uma alternativa rápida, faça sua simulação agora.
+          </p>
+          <ul>
+            <li>Solicitação simples e rápida</li>
+            <li>Atendimento direto pelo WhatsApp</li>
+            <li>Simulação sem compromisso</li>
+            <li>Mais agilidade no seu atendimento</li>
+          </ul>
+        </article>
+
+        <div class="form-box" id="formulario">
+          <div class="trust-row">
+            <span class="trust-pill">Atendimento pelo WhatsApp</span>
+            <span class="trust-pill">Simulação sem compromisso</span>
+            <span class="trust-pill">Processo rápido</span>
+          </div>
+
+          <h2>Solicite sua simulação</h2>
+          <p>Preencha seus dados para iniciar sua simulação de forma rápida e prática.</p>
+
+          <form id="leadForm">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="nome">Nome completo</label>
+                <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required />
+              </div>
+
+              <div class="form-group">
+                <label for="telefone">WhatsApp</label>
+                <input type="text" id="telefone" name="telefone" placeholder="(71) 99999-9999" required />
+              </div>
+
+              <div class="form-group">
+                <label for="valor">Valor desejado</label>
+                <input type="text" id="valor" name="valor" placeholder="R$ 5.000,00" required />
+              </div>
+
+              <div class="form-group">
+                <label for="prazo">Prazo para pagamento</label>
+                <input type="text" id="prazo" name="prazo" placeholder="Ex.: 12 meses" required />
+              </div>
+
+              <div class="form-group">
+                <label for="cidade">Cidade</label>
+                <input type="text" id="cidade" name="cidade" placeholder="Sua cidade" required />
+              </div>
+
+              <div class="form-group">
+                <label for="profissao">Profissão</label>
+                <input type="text" id="profissao" name="profissao" placeholder="Sua profissão" required />
+              </div>
+
+              <div class="form-group">
+                <label for="renda">Possui renda comprovada?</label>
+                <select id="renda" name="renda" required>
+                  <option value="">Selecione</option>
+                  <option value="Sim">Sim</option>
+                  <option value="Não">Não</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="conta">Recebe por conta bancária?</label>
+                <select id="conta" name="conta" required>
+                  <option value="">Selecione</option>
+                  <option value="Sim">Sim</option>
+                  <option value="Não">Não</option>
+                </select>
+              </div>
+
+              <div class="form-group full">
+                <label for="mensagemExtra">Observação</label>
+                <textarea id="mensagemExtra" name="mensagemExtra" rows="4" placeholder="Opcional"></textarea>
+              </div>
+            </div>
+
+            <div class="privacy-box">
+              Seus dados são utilizados apenas para contato, análise inicial e continuidade do atendimento.
+            </div>
+
+            <label class="privacy-check" for="aceitePrivacidade">
+              <input type="checkbox" id="aceitePrivacidade" required />
+              <span>Autorizo o uso das minhas informações para contato e andamento da simulação.</span>
+            </label>
+
+            <button type="submit" class="submit-btn">Enviar e continuar no WhatsApp</button>
+            <div id="statusMsg" class="status"></div>
+            <p class="note">Após o envio, você seguirá para a confirmação da solicitação.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Perguntas frequentes</h2>
+        <p class="section-subtitle">Tire suas dúvidas e solicite sua simulação com mais segurança.</p>
+
+        <div class="faq">
+          <article class="faq-item">
+            <h3>A simulação tem custo?</h3>
+            <p>Não. A solicitação é sem compromisso.</p>
+          </article>
+          <article class="faq-item">
+            <h3>O atendimento é rápido?</h3>
+            <p>Sim. O retorno acontece de forma ágil conforme a análise inicial.</p>
+          </article>
+          <article class="faq-item">
+            <h3>Quais dados preciso informar?</h3>
+            <p>Nome, WhatsApp, valor desejado e algumas informações básicas para iniciar sua solicitação.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Atendimento transparente, objetivo e focado em conversão.</p>
+  </footer>
+
+  <a class="floating-whatsapp btn-icon whatsapp-link" rel="noopener noreferrer"><img src="./assets/img/whatsapp.svg" alt="" />WhatsApp</a>
+
+  <script src="./assets/js/appConfig.js"></script>
+  <script src="./assets/js/leadService.js"></script>
+  <script src="./assets/js/main.js"></script>
+</body>
+</html>

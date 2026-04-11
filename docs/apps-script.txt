@@ -1,0 +1,21 @@
+function doPost(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Página1");
+  const body = JSON.parse(e.postData.contents);
+
+  sheet.appendRow([
+    new Date(),
+    body.nome,
+    body.telefone,
+    body.valor,
+    body.prazo,
+    body.cidade,
+    body.profissao,
+    body.renda,
+    body.conta,
+    body.mensagemExtra || ""
+  ]);
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ ok: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
