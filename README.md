@@ -1,4 +1,4 @@
-# emprestimo-system
+# agilsolucoes-system
 
 Projeto organizado para crescimento futuro, com frontend separado, base de backend, scripts de banco e documentação.
 
