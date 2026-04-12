@@ -112,8 +112,28 @@ document.addEventListener("DOMContentLoaded", function () {
       throw new Error("Informe um valor desejado válido.");
     }
 
-    if (!data.prazo || data.prazo.length < 2) {
-      throw new Error("Informe um prazo para pagamento.");
+    if (!data.prazo || !/^\d+$/.test(data.prazo)) {
+      throw new Error("Informe o prazo apenas em números.");
+    }
+
+    if (parseInt(data.prazo, 10) <= 0) {
+      throw new Error("Informe um prazo válido maior que zero.");
+    }
+
+    if (!data.estado) {
+      throw new Error("Selecione o estado.");
+    }
+
+    if (!data.cidade || data.cidade.length < 2) {
+      throw new Error("Informe a cidade.");
+    }
+
+    if (!data.profissao || data.profissao.length < 2) {
+      throw new Error("Informe sua profissão.");
+    }
+
+    if (!data.empresa || data.empresa.length < 2) {
+      throw new Error("Informe a empresa onde trabalha.");
     }
 
     if (privacyCheckbox && !privacyCheckbox.checked) {
@@ -128,9 +148,11 @@ document.addEventListener("DOMContentLoaded", function () {
       "Nome: " + data.nome,
       "WhatsApp: " + data.telefone,
       "Valor desejado: " + data.valor,
-      "Prazo: " + data.prazo,
+      "Prazo: " + data.prazo + " meses",
+      "Estado: " + data.estado,
       "Cidade: " + data.cidade,
       "Profissão: " + data.profissao,
+      "Empresa: " + data.empresa,
       "Renda comprovada: " + data.renda,
       "Recebe por conta bancária: " + data.conta
     ];
@@ -165,8 +187,10 @@ document.addEventListener("DOMContentLoaded", function () {
       telefone: document.getElementById("telefone")?.value.trim() || "",
       valor: document.getElementById("valor")?.value.trim() || "",
       prazo: document.getElementById("prazo")?.value.trim() || "",
+      estado: document.getElementById("estado")?.value || "",
       cidade: document.getElementById("cidade")?.value.trim() || "",
       profissao: document.getElementById("profissao")?.value.trim() || "",
+      empresa: document.getElementById("empresa")?.value.trim() || "",
       renda: document.getElementById("renda")?.value || "",
       conta: document.getElementById("conta")?.value || "",
       mensagemExtra: document.getElementById("mensagemExtra")?.value.trim() || ""

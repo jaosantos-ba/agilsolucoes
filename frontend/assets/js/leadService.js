@@ -15,11 +15,16 @@ async function sendToGoogleSheets(data) {
       telefone: data.telefone,
       valor: data.valor,
       prazo: data.prazo,
+      estado: data.estado,
       cidade: data.cidade,
       profissao: data.profissao,
+      empresa: data.empresa,
       renda: data.renda,
       conta: data.conta,
-      mensagemExtra: data.mensagemExtra
+      mensagemExtra: data.mensagemExtra,
+      status: "NOVO",
+      origem: "SITE",
+      valorAprovado: ""
     })
   });
 
