@@ -2,8 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("leadForm");
   const statusMsg = document.getElementById("statusMsg");
   const telefoneInput = document.getElementById("telefone");
-  const valorInput = document.getElementById("valor");
-
+  const salarioInput = document.getElementById("salario");
   const estadoSelect = document.getElementById("estado");
   const cidadeSelect = document.getElementById("cidade");
 
@@ -33,22 +32,6 @@ document.addEventListener("DOMContentLoaded", function () {
       "São Cristóvão"
     ]
   };
-
-  estadoSelect.addEventListener("change", function () {
-    const estado = this.value;
-
-    // Limpa cidades
-    cidadeSelect.innerHTML = '<option value="">Selecione</option>';
-
-    if (!estado || !cidadesPorEstado[estado]) return;
-
-    cidadesPorEstado[estado].forEach(function (cidade) {
-      const option = document.createElement("option");
-      option.value = cidade;
-      option.textContent = cidade;
-      cidadeSelect.appendChild(option);
-    });
-  });
 
   function showStatus(type, text) {
     if (!statusMsg) return;
@@ -142,6 +125,25 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  function carregarCidades() {
+    if (!estadoSelect || !cidadeSelect) return;
+
+    const estado = estadoSelect.value;
+    cidadeSelect.innerHTML = '<option value="">Selecione</option>';
+
+    if (!estado || !cidadesPorEstado[estado]) {
+      cidadeSelect.innerHTML = '<option value="">Selecione o estado</option>';
+      return;
+    }
+
+    cidadesPorEstado[estado].forEach(function (cidade) {
+      const option = document.createElement("option");
+      option.value = cidade;
+      option.textContent = cidade;
+      cidadeSelect.appendChild(option);
+    });
+  }
+
   function validateFormData(data) {
     const phoneNumbers = data.telefone.replace(/\D/g, "");
     const privacyCheckbox = document.getElementById("aceitePrivacidade");
@@ -154,39 +156,65 @@ document.addEventListener("DOMContentLoaded", function () {
       throw new Error("Informe um WhatsApp válido com DDD.");
     }
 
-    if (!data.profissao) throw new Error("Selecione a profissão.");
-    if (!data.estado) throw new Error("Selecione o estado.");
-    if (!data.cidade) throw new Error("Selecione a cidade.");
-    if (!data.carteira) throw new Error("Informe sobre a carteira.");
-    if (!data.tempoCarteira) throw new Error("Informe o tempo de carteira.");
-    if (!data.salario) throw new Error("Informe o salário.");
+    if (!data.profissao) {
+      throw new Error("Selecione a profissão.");
+    }
+
+    if (!data.empresa || data.empresa.length < 2) {
+      throw new Error("Informe a empresa onde trabalha.");
+    }
+
+    if (!data.estado) {
+      throw new Error("Selecione o estado.");
+    }
+
+    if (!data.cidade) {
+      throw new Error("Selecione a cidade.");
+    }
+
+    if (!data.carteira) {
+      throw new Error("Informe se possui carteira assinada.");
+    }
+
+    if (!data.tempoCarteira) {
+      throw new Error("Informe o tempo de carteira assinada.");
+    }
+
+    if (!data.salario || data.salario === "R$ 0,00") {
+      throw new Error("Informe o valor do salário líquido.");
+    }
 
     if (privacyCheckbox && !privacyCheckbox.checked) {
       throw new Error("É necessário autorizar o uso das informações para continuar.");
     }
   }
 
-  function buildMessage(data) {
-    return encodeURIComponent(
-  `Olá, quero uma simulação.
+  function buildWhatsAppMessage(data) {
+    const linhas = [
+      "Olá, quero solicitar uma simulação de empréstimo.",
+      "",
+      "Nome: " + data.nome,
+      "WhatsApp: " + data.telefone,
+      "Profissão: " + data.profissao,
+      "Empresa: " + (data.empresa || "-"),
+      "Estado: " + data.estado,
+      "Cidade: " + data.cidade,
+      "Carteira assinada: " + data.carteira,
+      "Tempo de carteira: " + data.tempoCarteira,
+      "Salário líquido: " + data.salario
+    ];
 
-  Nome: ${data.nome}
-  WhatsApp: ${data.telefone}
-  Profissão: ${data.profissao}
-  Empresa: ${data.empresa || "-"}
-  Estado: ${data.estado}
-  Cidade: ${data.cidade}
-  Carteira assinada: ${data.carteira}
-  Tempo de carteira: ${data.tempoCarteira}
-  Salário: ${data.salario}
-  Observação: ${data.mensagemExtra || "-"}`
-    );
+    if (data.mensagemExtra) {
+      linhas.push("Observação: " + data.mensagemExtra);
+    }
+
+    return linhas.join("\n");
   }
 
   startCountdown();
   initWhatsAppLinks();
 
-  if (!form || !statusMsg || !telefoneInput || !valorInput) {
+  if (!form || !statusMsg || !telefoneInput || !salarioInput) {
     return;
   }
 
@@ -194,24 +222,28 @@ document.addEventListener("DOMContentLoaded", function () {
     e.target.value = formatPhone(e.target.value);
   });
 
-  valorInput.addEventListener("input", function (e) {
+  salarioInput.addEventListener("input", function (e) {
     e.target.value = formatCurrency(e.target.value);
   });
+
+  if (estadoSelect) {
+    estadoSelect.addEventListener("change", carregarCidades);
+  }
 
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
 
     const data = {
-      nome: document.getElementById("nome").value.trim(),
-      telefone: document.getElementById("telefone").value.trim(),
-      profissao: document.getElementById("profissao").value,
-      empresa: document.getElementById("empresa").value.trim(),
-      estado: document.getElementById("estado").value,
-      cidade: document.getElementById("cidade").value,
-      carteira: document.getElementById("carteira").value,
-      tempoCarteira: document.getElementById("tempoCarteira").value,
-      salario: document.getElementById("salario").value.trim(),
-      mensagemExtra: document.getElementById("mensagemExtra").value.trim()
+      nome: document.getElementById("nome")?.value.trim() || "",
+      telefone: document.getElementById("telefone")?.value.trim() || "",
+      profissao: document.getElementById("profissao")?.value || "",
+      empresa: document.getElementById("empresa")?.value.trim() || "",
+      estado: document.getElementById("estado")?.value || "",
+      cidade: document.getElementById("cidade")?.value || "",
+      carteira: document.getElementById("carteira")?.value || "",
+      tempoCarteira: document.getElementById("tempoCarteira")?.value || "",
+      salario: document.getElementById("salario")?.value.trim() || "",
+      mensagemExtra: document.getElementById("mensagemExtra")?.value.trim() || ""
     };
 
     const botao = form.querySelector("button[type='submit']");
