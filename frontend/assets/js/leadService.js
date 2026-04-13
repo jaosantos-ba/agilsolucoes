@@ -22,8 +22,8 @@ async function sendToGoogleSheets(data) {
       renda: data.renda,
       conta: data.conta,
       mensagemExtra: data.mensagemExtra,
-      status: "NOVO",
-      origem: "SITE",
+      status: "Novo",
+      origem: "Site",
       valorAprovado: ""
     })
   });
