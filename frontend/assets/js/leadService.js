@@ -10,21 +10,20 @@ async function sendToGoogleSheets(data) {
       "Content-Type": "text/plain;charset=utf-8"
     },
     body: JSON.stringify({
-      data: new Date().toISOString(),
-      nome: data.nome,
-      telefone: data.telefone,
-      valor: data.valor,
-      prazo: data.prazo,
-      estado: data.estado,
-      cidade: data.cidade,
-      profissao: data.profissao,
-      empresa: data.empresa,
-      renda: data.renda,
-      conta: data.conta,
-      mensagemExtra: data.mensagemExtra,
-      status: "Novo",
-      origem: "Site",
-      valorAprovado: ""
+    data: new Date().toISOString(),
+    nome: data.nome,
+    telefone: data.telefone,
+    profissao: data.profissao,
+    empresa: data.empresa,
+    estado: data.estado,
+    cidade: data.cidade,
+    carteira: data.carteira,
+    tempoCarteira: data.tempoCarteira,
+    salario: data.salario,
+    mensagemExtra: data.mensagemExtra,
+    status: "Novo",
+    origem: "Site",
+    valorAprovado: ""
     })
   });
 

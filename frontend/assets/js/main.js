@@ -4,6 +4,52 @@ document.addEventListener("DOMContentLoaded", function () {
   const telefoneInput = document.getElementById("telefone");
   const valorInput = document.getElementById("valor");
 
+  const estadoSelect = document.getElementById("estado");
+  const cidadeSelect = document.getElementById("cidade");
+
+  const cidadesPorEstado = {
+    BA: [
+      "Salvador",
+      "Camaçari",
+      "Candeias",
+      "Dias D’Ávila",
+      "Lauro de Freitas",
+      "Simões Filho"
+    ],
+    SE: [
+      "Aracaju",
+      "Barra dos Coqueiros",
+      "Estância",
+      "Itabaiana",
+      "Itaporanga D’Ajuda",
+      "Lagarto",
+      "Laranjeiras",
+      "Maruim",
+      "Nossa Senhora do Socorro",
+      "Pedra Branca",
+      "Pirambu",
+      "Riachuelo",
+      "Rosário do Catete",
+      "São Cristóvão"
+    ]
+  };
+
+  estadoSelect.addEventListener("change", function () {
+    const estado = this.value;
+
+    // Limpa cidades
+    cidadeSelect.innerHTML = '<option value="">Selecione</option>';
+
+    if (!estado || !cidadesPorEstado[estado]) return;
+
+    cidadesPorEstado[estado].forEach(function (cidade) {
+      const option = document.createElement("option");
+      option.value = cidade;
+      option.textContent = cidade;
+      cidadeSelect.appendChild(option);
+    });
+  });
+
   function showStatus(type, text) {
     if (!statusMsg) return;
     statusMsg.className = "status " + type;
@@ -108,60 +154,33 @@ document.addEventListener("DOMContentLoaded", function () {
       throw new Error("Informe um WhatsApp válido com DDD.");
     }
 
-    if (!data.valor || data.valor === "R$ 0,00") {
-      throw new Error("Informe um valor desejado válido.");
-    }
-
-    if (!data.prazo || !/^\d+$/.test(data.prazo)) {
-      throw new Error("Informe o prazo apenas em números.");
-    }
-
-    if (parseInt(data.prazo, 10) <= 0) {
-      throw new Error("Informe um prazo válido maior que zero.");
-    }
-
-    if (!data.estado) {
-      throw new Error("Selecione o estado.");
-    }
-
-    if (!data.cidade || data.cidade.length < 2) {
-      throw new Error("Informe a cidade.");
-    }
-
-    if (!data.profissao || data.profissao.length < 2) {
-      throw new Error("Informe sua profissão.");
-    }
-
-    if (!data.empresa || data.empresa.length < 2) {
-      throw new Error("Informe a empresa onde trabalha.");
-    }
+    if (!data.profissao) throw new Error("Selecione a profissão.");
+    if (!data.estado) throw new Error("Selecione o estado.");
+    if (!data.cidade) throw new Error("Selecione a cidade.");
+    if (!data.carteira) throw new Error("Informe sobre a carteira.");
+    if (!data.tempoCarteira) throw new Error("Informe o tempo de carteira.");
+    if (!data.salario) throw new Error("Informe o salário.");
 
     if (privacyCheckbox && !privacyCheckbox.checked) {
       throw new Error("É necessário autorizar o uso das informações para continuar.");
     }
   }
 
-  function buildWhatsAppMessage(data) {
-    const linhas = [
-      "Olá, quero solicitar uma simulação de empréstimo.",
-      "",
-      "Nome: " + data.nome,
-      "WhatsApp: " + data.telefone,
-      "Valor desejado: " + data.valor,
-      "Prazo: " + data.prazo + " meses",
-      "Estado: " + data.estado,
-      "Cidade: " + data.cidade,
-      "Profissão: " + data.profissao,
-      "Empresa: " + data.empresa,
-      "Renda comprovada: " + data.renda,
-      "Recebe por conta bancária: " + data.conta
-    ];
+  function buildMessage(data) {
+    return encodeURIComponent(
+  `Olá, quero uma simulação.
 
-    if (data.mensagemExtra) {
-      linhas.push("Observação: " + data.mensagemExtra);
-    }
-
-    return linhas.join("\n");
+  Nome: ${data.nome}
+  WhatsApp: ${data.telefone}
+  Profissão: ${data.profissao}
+  Empresa: ${data.empresa || "-"}
+  Estado: ${data.estado}
+  Cidade: ${data.cidade}
+  Carteira assinada: ${data.carteira}
+  Tempo de carteira: ${data.tempoCarteira}
+  Salário: ${data.salario}
+  Observação: ${data.mensagemExtra || "-"}`
+    );
   }
 
   startCountdown();
@@ -183,17 +202,16 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
 
     const data = {
-      nome: document.getElementById("nome")?.value.trim() || "",
-      telefone: document.getElementById("telefone")?.value.trim() || "",
-      valor: document.getElementById("valor")?.value.trim() || "",
-      prazo: document.getElementById("prazo")?.value.trim() || "",
-      estado: document.getElementById("estado")?.value || "",
-      cidade: document.getElementById("cidade")?.value.trim() || "",
-      profissao: document.getElementById("profissao")?.value.trim() || "",
-      empresa: document.getElementById("empresa")?.value.trim() || "",
-      renda: document.getElementById("renda")?.value || "",
-      conta: document.getElementById("conta")?.value || "",
-      mensagemExtra: document.getElementById("mensagemExtra")?.value.trim() || ""
+      nome: document.getElementById("nome").value.trim(),
+      telefone: document.getElementById("telefone").value.trim(),
+      profissao: document.getElementById("profissao").value,
+      empresa: document.getElementById("empresa").value.trim(),
+      estado: document.getElementById("estado").value,
+      cidade: document.getElementById("cidade").value,
+      carteira: document.getElementById("carteira").value,
+      tempoCarteira: document.getElementById("tempoCarteira").value,
+      salario: document.getElementById("salario").value.trim(),
+      mensagemExtra: document.getElementById("mensagemExtra").value.trim()
     };
 
     const botao = form.querySelector("button[type='submit']");
