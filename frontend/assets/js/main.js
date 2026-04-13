@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const statusMsg = document.getElementById("statusMsg");
   const telefoneInput = document.getElementById("telefone");
   const valorInput = document.getElementById("valor");
-  
+
   function showStatus(type, text) {
     if (!statusMsg) return;
     statusMsg.className = "status " + type;
