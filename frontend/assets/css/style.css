@@ -610,8 +610,8 @@ textarea:focus {
 
 .floating-whatsapp {
   position: fixed;
-  right: 18px;
-  bottom: 18px;
+  right: 24px;
+  bottom: 24px;
   z-index: 99;
   background: #25d366;
   color: white;
@@ -706,9 +706,21 @@ footer {
   height: 16px;
 }
 
+.top-contact.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .floating-whatsapp img {
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
+}
+
+.floating-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .hidden {
